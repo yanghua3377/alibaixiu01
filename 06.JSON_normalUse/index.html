@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>JSON的基本使用</h2>
+</body>
+</html>
+<script>
+    /*
+        JSON
+            JSON是一种格式 跟编程语言 没有关系
+            载体是字符串
+        为什么JSON这么流行
+            因为 传输量小
+            基本上所有的编程语言 提供了 一个 或者一系列的函数 把这种格式的数据 转化为 该语言 对应的 数组 对象
+        JSON格式的写法
+            跟js的对象 数组 写法很像
+    */  
+    // js对象
+    var obj = {name:'jack',skill:'jumpToSea'};
+
+    // 使用JSON来表示对象
+    // 属性名 必须用 双引号包裹
+    // 载体是 字符串
+    // JSON格式 不能直接使用 因为是字符串
+    // 为了使用方便 需要对其 进行转化
+    var JSONObj = '{"name":"rose","skill":"画画"}';
+
+    // console.log(JSONObj);
+
+    // // var result = JSON.parse(JSONObj);
+    // console.log(result);
+    // console.log(result.skill);
+    // console.log(result.name);
+
+
+    // JSON表示数组 字符串
+    var JSONArr = '["西兰花炒蛋","剁椒鸡腿","白切苹果"]';
+    // console.log(JSONArr);
+    // 转化为 好解析的
+    // var result = JSON.parse(JSONArr);
+    // console.log(result);
+
+    // JSON表示复杂数据
+    var JSONFZData = '[{"name":"水煮酱油","taste":"棒棒哒"},{"name":"花菜炒西兰花","taste":"也棒棒哒"}]';
+    // console.log(JSONFZData);
+
+    // // 为了好用
+    // var result = JSON.parse(JSONFZData);
+    // console.log(result);
+
+    // 对象的属性名 必须用 双引号 属性的值 也必须用双引号
+    // 如果格式不正确 会解析失败
+    // 不能用单引号
+    // 特殊情况 如果属性值 是数值 可以不用双引号包裹
+    var testJSON = '{"name":"热播博士","skill":"播放的很快","age":18}';
+    JSON.parse(testJSON);
+
+</script>

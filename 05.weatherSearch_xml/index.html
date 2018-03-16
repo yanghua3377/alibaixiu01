@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            /* background-image: linear-gradient(to bottom,orange,blue,deepskyblue,yellowgreen,hotpink); */
+            background-image: linear-gradient(to bottom,blue,deepskyblue,skyblue);
+        }
+        h2{
+            /* background-color: skyblue; */
+            /* color:orange; */
+        }
+        p{
+            /* background-color: skyblue;
+            color:white; */
+        }
+        .sun{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: absolute;
+            background-color: orange;
+            left:50%;
+            top:-200px;
+            margin-left: -50px;
+            box-shadow: 0 0 100px green;
+            transition: all 5s;
+        }
+        body{
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sun"></div>
+    <h2>天气查询</h2>
+    <input type="text" placeholder="请输入查询的城市">
+    <br>
+    <input type="button" value="查询">
+</body>
+
+</html>
+<script>
+    /*
+    实际工作中
+    前端程序员 主要使用ajax 向后台获取数据
+
+    后台写好了后台代码之后 会为我们提供一个
+        接口
+            封装好的 一个 一系列的功能
+        如何使用ajax调用接口呢?
+        http://wthrcdn.etouch.cn/WeatherApi?city=
+        只需要知道 必须的几个参数即可
+            请求的url http://wthrcdn.etouch.cn/WeatherApi?city=
+            请求的method get
+            发送的数据  city
+        XML的缺点
+            1.数据的传输量较大
+                每一个内容 最起码要有两个标签包裹
+                    在现在的网络环境下 不是问题
+            2.解析起来 略微有点繁琐
+                需要获取到标签 然后解析
+        为了解决这个问题
+            就有了一种更好的 格式 JSON
+    */
+        
+    /*
+        点击按钮 
+        获取输入的 内容
+        发送到 对应的 url 中即可
+    */
+    document.querySelector('input[type=button]').onclick = function () {
+        // 获取 文本框的 value值
+        var inputCity = document.querySelector('input[type=text]').value;
+        console.log(inputCity);
+        // ajax 发送数据
+        //1.创建对象
+        var ajax = new XMLHttpRequest();
+        //2.设置请求行(get请求数据写在url后面)
+        ajax.open('get', 'http://wthrcdn.etouch.cn/WeatherApi?city=' + inputCity);
+        //3.设置请求头 get不需要
+        //3.5注册回调函数
+        ajax.onload = function () {
+            console.log(ajax.responseXML);
+            // 太阳掉下来
+            document.querySelector('.sun').style.top= '0px';
+            // 解析数据
+            // 获取城市
+            var city = ajax.responseXML.querySelector('city').innerHTML;
+
+            // 使用h2显示城市
+            var h2Dom = document.createElement('h2');
+            h2Dom.innerHTML = city;
+            document.body.appendChild(h2Dom);
+
+            // 获取未来天气
+            var weatherList = ajax.responseXML.querySelectorAll('weather');
+            for(var i =0;i<weatherList.length;i++){
+                var date = weatherList[i].querySelector('date').innerHTML;
+                var high = weatherList[i].querySelector('high').innerHTML;
+                var low = weatherList[i].querySelector('low').innerHTML;
+                // 输出
+                // console.log(date+high+low);
+                var pDom = document.createElement('p');
+                pDom.innerHTML = date+'--'+high+'----'+low;
+                // 添加到页面上
+                document.body.appendChild(pDom);
+            }
+        }
+        //4.请求主体发送(get请求为空，或者写null，post请求数据写在这里，如果没有数据，直接为空或者写null)
+        ajax.send(null);
+    }
+</script>

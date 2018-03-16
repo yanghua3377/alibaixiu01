@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <h2>ajax获取xml数据</h2>
+        <input type="button" value="ajax获取XML">
+    </body>
+
+</html>
+<script>
+    // 点击的时候 发送ajax
+    document.querySelector('input').onclick = function () {
+        // 创建对象
+        var ajax = new XMLHttpRequest();
+        // 请求行
+        // ajax.open('get', './data/cartoonPerson.xml');
+        ajax.open('get', './data/personList.xml');
+        // 请求头 get 不需要设置请求头
+        // 回调函数
+        ajax.onload = function () {
+            // 基本使用
+            /*
+                // 对比页面中的 document
+                console.log(document);
+                // console.log(ajax.responseText)
+                // responseXML 专门用来获取 xml格式的数据
+                // 也是一个文档对象
+                console.log(ajax.responseXML);
+                // 获取标签 进而获取内容
+                console.log(ajax.responseXML.querySelector('foot').innerHTML);
+                console.log(ajax.responseXML.querySelector('head').innerHTML);
+            */
+            console.log(ajax.responseXML);
+            var starList = ajax.responseXML.querySelectorAll('star');
+           for(var i =0;i<starList.length;i++){
+            //    console.log(starList[i].querySelector('name'));
+            //    console.log(starList[i].querySelector('skill'));
+            var skill =starList[i].querySelector('skill').innerHTML;
+            var name =starList[i].querySelector('name').innerHTML;
+
+            // 拼接为 一行
+            console.log(name+'擅长:'+skill);
+            // 创建一个p标签
+            var pDom = document.createElement('p');
+
+            pDom.innerHTML =name+'擅长:'+skill;
+
+            // 添加到页面中
+            document.body.appendChild(pDom);
+
+
+           }
+        }
+        // 请求主体
+        // null 跟不写 都是可以的
+        ajax.send(null);
+    }
+</script>

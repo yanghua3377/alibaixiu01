@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  <style>
+    .thumbnail {
+      width: auto;
+      display: inline-block;
+    }
+    img{
+      height: 249px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h2 class="">明星数据展示</h2>
+      </div>
+      <div class="panel-body">
+        <div class="jumbotron">
+          <h1>宋慧乔</h1>
+
+          <a href="#" class="thumbnail">
+            <img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2602109396,2877482886&fm=58" alt="...">
+          </a>
+          <p>美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒美美哒</p>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <input class='btn btn-info btn-lg' type="button" value='周林林'>
+        <input class='btn btn-info btn-lg' type="button" value='林利群'>
+        <input class='btn btn-info btn-lg' type="button" value='西兰花'>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="lib/js/jquery-1.12.4.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="lib/js/bootstrap.min.js"></script>
+<script>
+  //   点击事件  querySelectorAll 返回的是数组
+  var inputList = document.querySelectorAll('input');
+  console.log(inputList);
+
+  for (var i = 0; i < inputList.length; i++) {
+    inputList[i].onclick = function () {
+      // 点击换名字
+      // 直接点击切换即可
+      document.querySelector('h1').innerHTML = this.value;
+
+
+      // 无刷新跟服务器交互 ajax
+      //     使用post发送数据
+      //         创建对象
+      var ajax = new XMLHttpRequest();
+
+      //         设置请求行
+      ajax.open('post', './getStar.php');
+
+      //         设置请求头
+      ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+      //         设置回调函数
+      ajax.onload = function () {
+        console.log(ajax.responseText)
+        // 目前返回的是 图片的 路径
+        // document.querySelector('img').src = ajax.responseText;
+
+        // 当返回的数据很多之后 会拼接为一个 完整的 字符串 
+        // 我们需要人为的 去处理  分隔
+        // split 切割之后 会删除切割符号
+        var result = ajax.responseText.split('囧_^_^_QG_^_^_囧');
+        // console.log(result);
+
+        // 索引为0 的 设置给img
+        document.querySelector('img').src = result[0];
+        // 索引为1 的 设置给 个性签名
+        document.querySelector('p').innerHTML = result[1];
+      }
+
+      //         设置请求主体
+      //             数据 名字
+      ajax.send('starName='+this.value);
+
+    }
+  }
+</script>

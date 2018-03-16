@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>聊天机器人</h2>
+    <input type="text" placeholder="请输入你要聊的东西">
+    <input type="button" value="发送">
+</body>
+
+</html>
+<script>
+    document.querySelector('input[type=button]').onclick = function () {
+        // 获取value值 然后 发送
+        var inputValue = document.querySelector('input[type=text]').value;
+        // 每次我点击发送 
+        // 获取 输入的内容
+        // 创建一个标签
+        var myP = document.createElement('p');
+        myP.style.backgroundColor = 'hotpink';
+        // 设置内容
+        myP.innerHTML = inputValue;
+        // 添加到页面上
+        document.body.appendChild(myP);
+
+        // 无刷新 请求数据 ajax
+        //1.创建对象
+        var ajax = new XMLHttpRequest();
+        //2.设置请求行(get请求数据写在url后面)
+        ajax.open('post', 'http://www.tuling123.com/openapi/api');
+        //3.设置请求头(get请求可以省略,post不发送数据也可以省略)
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //3.5注册回调函数
+        ajax.onload = function () {
+            // console.log(ajax.responseText);
+            var data = JSON.parse(ajax.responseText);
+            // console.log(data);
+            console.log(data.text);
+            
+            // 创建机器人的p标签
+            var robotP = document.createElement('p');
+            robotP.style.backgroundColor = 'yellowgreen';
+
+            // 设置内容
+            robotP.innerHTML =data.text;
+
+            // 添加到页面上
+            document.body.appendChild(robotP);
+
+
+        }
+        //4.请求主体发送(get请求为空，或者写null，post请求数据写在这里，如果没有数据，直接为空或者写null)
+
+        ajax.send('key=8819946bf44542b4b585c08245387ca8&info=' + inputValue);
+
+    }
+</script>

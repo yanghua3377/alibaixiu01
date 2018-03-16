@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <star>
+        <name>PG_ONE</name>
+        <skill>美容美发</skill>
+    </star>
+    <star>
+        <name>刘恺威</name>
+        <skill>看剧本</skill>
+    </star>
+    <star>
+        <name>小李子</name>
+        <skill>跳不完的海,做不完的梦</skill>
+    </star>
+</root>

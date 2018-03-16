@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>ajax通过post发送数据</h2>
+    <!-- ajax
+        不依赖于 form表单 或者是 a标签
+        只需要 通过js即可 触发
+    -->
+    <input class="post" type="button" value="ajax_post">
+    <input class="get" type="button" value="ajax_get">
+</body>
+
+</html>
+<script>
+    // 绑定点击事件
+    // 这个方法 返回的是 满足条件的 第一个dom元素
+    // 传入的参数是 css的选择器
+    document.querySelector('.post').onclick = function () {
+        // console.log('你点我啦');
+        /*
+            ajax的本质 就是利用 js 来发送请求报文
+            请求报文分为三大组成部分
+            请求行 
+                请求的方法 请求的地址
+            请求头
+                浏览器的一些信息
+
+            请求主体
+                发送的数据
+        */
+        // new一个对象
+        // 有提示的 如果没有提示 可能是你写错了 删掉重写
+        var ajax = new XMLHttpRequest();
+
+        // 设置请求行
+        ajax.open('post', './backData.php');
+
+        // 设置请求头
+        // 如果要用post发送数据 只需要写 content-type即可
+        // set Request header
+        // ajax.setRequestHeader('content-type','application/x-www-form-urlencoded');
+        // 代码段 my_ajax_header
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // 回调函数
+        // 请求响应回来之后 触发
+        // 数据的获取 只能 写在这个里面 写在外面是获取不到的
+        ajax.onload = function () {
+            console.log('你回来啦');
+            // console.log(ajax.responseText);
+            document.querySelector('h2').innerHTML = ajax.responseText;
+        }
+        // 设置请求主体
+        // 发送请求
+        ajax.send('habbit=吃西兰花炒蛋');
+    }
+
+    // 发送get请求
+    document.querySelector('.get').onclick = function () {
+        // 创建一个对象
+        var ajax = new XMLHttpRequest();
+
+        // 设置请求行
+        // get请求 的数据在url中
+        ajax.open('get','./getData.php?name=jack&skill=jumpIntoSea');
+
+        // 设置请求头
+        // 使用 get发送数据 不需要设置请求头 
+        // ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+        // ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+        // 设置回调函数
+        ajax.onload = function(){
+            // 先打印一下 看看有没有
+            console.log(ajax.responseText);
+            // 弹框比较暴力 测试阶段 可以用 实际项目 不建议使用
+            alert(ajax.responseText);
+        }
+
+        // 设置请求主体
+        // get请求 调用send方法时 不需要写东西 
+        // 一般我们会写上null 不写也是可以的
+        ajax.send();
+
+
+    }
+</script>
